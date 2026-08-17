@@ -71,6 +71,11 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
         registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
+
+    /**
+     * 添加一个消息转换器
+     * @param converters
+     */
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters){
         //创建一个消息转换器
         MappingJackson2HttpMessageConverter converter=new MappingJackson2HttpMessageConverter();
