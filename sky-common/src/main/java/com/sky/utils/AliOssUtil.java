@@ -1,13 +1,17 @@
 package com.sky.utils;
 
-import com.aliyun.oss.ClientException;
-import com.aliyun.oss.OSS;
-import com.aliyun.oss.OSSClientBuilder;
-import com.aliyun.oss.OSSException;
+import com.aliyun.oss.*;
+import com.aliyun.oss.common.auth.EnvironmentVariableCredentialsProvider;
+import com.aliyun.oss.common.comm.SignVersion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapProperties;
+
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -15,22 +19,36 @@ import java.io.ByteArrayInputStream;
 public class AliOssUtil {
 
     private String endpoint;
-    private String accessKeyId;
-    private String accessKeySecret;
+    private EnvironmentVariableCredentialsProvider credentialsProvider;
     private String bucketName;
+    private String region;
 
     /**
      * 文件上传
      *
      * @param bytes
-     * @param objectName
+     * @param originalFileName
      * @return
      */
-    public String upload(byte[] bytes, String objectName) {
+    public String upload(byte[] bytes, String originalFileName) {
+
+
+        // 填写Object完整路径，例如202406/1.png。Object完整路径中不能包含Bucket名称。
+        //获取当前系统日期的字符串,格式为 yyyy/MM
+        String dir = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
+        //生成一个新的不重复的文件名
+        String newFileName = UUID.randomUUID() + originalFileName.substring(originalFileName.lastIndexOf("."));
+        String objectName = dir + "/" + newFileName;
 
         // 创建OSSClient实例。
-        OSS ossClient = new OSSClientBuilder().build(endpoint, accessKeyId, accessKeySecret);
-
+        ClientBuilderConfiguration clientBuilderConfiguration = new ClientBuilderConfiguration();
+        clientBuilderConfiguration.setSignatureVersion(SignVersion.V4);
+        OSS ossClient = OSSClientBuilder.create()
+                .endpoint(endpoint)
+                .credentialsProvider(credentialsProvider)
+                .clientConfiguration(clientBuilderConfiguration)
+                .region(region)
+                .build();
         try {
             // 创建PutObject请求。
             ossClient.putObject(bucketName, objectName, new ByteArrayInputStream(bytes));
@@ -52,17 +70,17 @@ public class AliOssUtil {
             }
         }
 
-        //文件访问路径规则 https://BucketName.Endpoint/ObjectName
-        StringBuilder stringBuilder = new StringBuilder("https://");
-        stringBuilder
-                .append(bucketName)
-                .append(".")
-                .append(endpoint)
-                .append("/")
-                .append(objectName);
+//        //文件访问路径规则 https://BucketName.Endpoint/ObjectName
+//        StringBuilder stringBuilder = new StringBuilder("https://");
+//        stringBuilder
+//                .append(bucketName)
+//                .append(".")
+//
+//                .append("/")
+//                .append(objectName);
+        String address= endpoint.split("//")[0] + "//" + bucketName + "." + endpoint.split("//")[1] + "/" + objectName;
+        log.info("文件上传到:{}", address);
 
-        log.info("文件上传到:{}", stringBuilder.toString());
-
-        return stringBuilder.toString();
+        return address;
     }
 }
