@@ -31,9 +31,11 @@ public class DishController {
         log.info("菜品分页查询:{}",dishPageQueryDTO);
          return Result.success(dishService.page(dishPageQueryDTO));
     }
-    @DeleteMapping("菜品批量删除")
+    @DeleteMapping()
+    @ApiOperation("菜品批量删除")
     public Result delete(@RequestParam List<Long> ids){
         dishService.delete(ids);
         return Result.success(ids);
     }
+
 }
