@@ -65,9 +65,9 @@ public class DishServiceImpl implements DishService {
     public void delete(List<Long> ids) {
         //遍历ids，根据id查询菜品，若status等于1（起售中）则抛出业务异常，提示"起售中的菜品不能删除"
         for(Long id :ids){
-            if(dishMapper.getById(id).getStatus()== StatusConstant.ENABLE)
-                throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
-        }
+        if(dishMapper.getById(id).getStatus()== StatusConstant.ENABLE)
+            throw new DeletionNotAllowedException(MessageConstant.DISH_ON_SALE);
+    }
         //判断dish与套餐是否关联
         List<Long> list=setmealDishMapper.getSetmealIdsByDishIds(ids);
         if(list!=null && !list.isEmpty())
