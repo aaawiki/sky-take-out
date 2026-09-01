@@ -1,0 +1,258 @@
+{
+  "version": 1,
+  "topic": "Redis",
+  "slug": "redis",
+  "created": "2026-08-28",
+  "domains": [
+    {
+      "name": "核心基础",
+      "slug": "core-fundamentals",
+      "concepts": [
+        {
+          "name": "Redis 是什么与安装部署",
+          "slug": "what-is-redis",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["Redis 特性与设计哲学", "单线程模型与高性能原因", "Docker 与源码编译安装"]
+        },
+        {
+          "name": "五大基本数据类型",
+          "slug": "five-basic-types",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["String", "Hash", "List", "Set", "Sorted Set"]
+        },
+        {
+          "name": "通用命令与键管理",
+          "slug": "generic-commands",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["KEYS/SCAN", "EXPIRE/TTL", "DEL/EXISTS/TYPE", "键命名规范"]
+        },
+        {
+          "name": "发布订阅模式",
+          "slug": "pub-sub",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["PUBLISH/SUBSCRIBE", "PSUBSCRIBE 模式匹配", "Pub/Sub 的局限性"]
+        },
+        {
+          "name": "Redis 事务",
+          "slug": "transactions",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["MULTI/EXEC/DISCARD", "WATCH 乐观锁", "事务与 Pipeline 的区别"]
+        }
+      ]
+    },
+    {
+      "name": "数据结构深入",
+      "slug": "data-structures",
+      "concepts": [
+        {
+          "name": "高级数据类型",
+          "slug": "advanced-data-types",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["Bitmap 位图", "HyperLogLog", "GEO 地理位置", "Stream 流"]
+        },
+        {
+          "name": "底层数据结构实现",
+          "slug": "underlying-data-structures",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["SDS 简单动态字符串", "Dict 字典", "ZipList 压缩列表", "SkipList 跳跃表", "QuickList", "ListPack"]
+        },
+        {
+          "name": "对象系统与编码",
+          "slug": "object-system",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["redisObject 结构", "编码转换规则", "OBJECT ENCODING 命令"]
+        },
+        {
+          "name": "Stream 消息队列",
+          "slug": "stream",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["XADD/XREAD/XREADGROUP", "消费者组", "消息确认与重试", "Stream 与 Kafka 对比"]
+        }
+      ]
+    },
+    {
+      "name": "持久化与高可用",
+      "slug": "persistence-ha",
+      "concepts": [
+        {
+          "name": "RDB 快照持久化",
+          "slug": "rdb",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["SAVE vs BGSAVE", "RDB 触发条件", "fork 子进程与 COW", "优缺点分析"]
+        },
+        {
+          "name": "AOF 日志持久化",
+          "slug": "aof",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["AOF 写入策略", "AOF 重写机制", "AOF 修复", "RDB + AOF 混合持久化"]
+        },
+        {
+          "name": "主从复制",
+          "slug": "replication",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["全量复制与增量复制", "replication buffer", "复制积压缓冲区", "主从复制延迟与一致性"]
+        },
+        {
+          "name": "Sentinel 哨兵机制",
+          "slug": "sentinel",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["Sentinel 架构", "主观下线与客观下线", "Leader 选举与故障转移", "Sentinel 配置实践"]
+        }
+      ]
+    },
+    {
+      "name": "集群架构",
+      "slug": "clustering",
+      "concepts": [
+        {
+          "name": "Redis Cluster 集群",
+          "slug": "redis-cluster",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["哈希槽 (Hash Slot)", "MOVED 与 ASK 重定向", "集群通信协议 Gossip", "Cluster 扩容缩容"]
+        },
+        {
+          "name": "数据分片策略",
+          "slug": "sharding-strategies",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["客户端分片", "代理分片 (Twemproxy/Codis)", "一致性哈希", "Cluster 与代理方案对比"]
+        }
+      ]
+    },
+    {
+      "name": "性能优化与实战",
+      "slug": "performance-practice",
+      "concepts": [
+        {
+          "name": "内存优化策略",
+          "slug": "memory-optimization",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["内存碎片与整理", "共享对象池", "内存淘汰策略 (LRU/LFU/TTL)", "INFO memory 分析"]
+        },
+        {
+          "name": "缓存经典问题",
+          "slug": "cache-problems",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["缓存穿透", "缓存击穿", "缓存雪崩", "双写一致性问题"]
+        },
+        {
+          "name": "Pipeline 与批量操作",
+          "slug": "pipeline",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["Pipeline 原理", "RTT 优化", "批量命令最佳实践", "Pipeline vs 事务"]
+        },
+        {
+          "name": "分布式锁",
+          "slug": "distributed-lock",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["SETNX 实现", "Redlock 算法", "Redisson 实战", "分布式锁的可靠性边界"]
+        },
+        {
+          "name": "Lua 脚本",
+          "slug": "lua-scripting",
+          "status": "unexplored",
+          "confidence": 0,
+          "practice_count": 0,
+          "explain_count": 0,
+          "last_explained": null,
+          "last_practiced": null,
+          "details": ["EVAL/EVALSHA", "脚本原子性", "Lua 脚本调试", "脚本缓存与性能"]
+        }
+      ]
+    }
+  ]
+}
