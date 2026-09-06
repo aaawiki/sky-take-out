@@ -16,3 +16,8 @@ sky:
     endpoint: https://oss-cn-shanghai.aliyuncs.com
     region: cn-shanghai
     bucket-name: wuzhiyu-web02
+  wechat:
+    # 微信小程序的appid，替换为你自己小程序的appid
+    appid: wx49a6c3a5de8026ed
+    # 微信小程序的密钥，替换为你自己小程序的secret
+    secret: aa1769cb1e71629bca7dc49b43ccd837
