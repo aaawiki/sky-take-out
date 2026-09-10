@@ -120,4 +120,9 @@ public class DishServiceImpl implements DishService {
                 .build();
         dishMapper.update(dish);
     }
+
+    @Override
+    public List<DishVO> listWithFlavor(Dish dish) {
+        return List.of();
+    }
 }
