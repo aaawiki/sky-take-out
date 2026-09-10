@@ -4,3 +4,5 @@
 *.class
 *Test.java
 **/test/
+# 环境配置文件（含数据库密码等敏感信息）
+sky-server/src/main/resources/application-dev.yml
