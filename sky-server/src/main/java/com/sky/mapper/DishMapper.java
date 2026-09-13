@@ -35,4 +35,9 @@ public interface DishMapper {
      * 根据id查询菜品（含分类名称）
      */
     DishVO getByIdWithCategory(Long id);
+
+    /**
+     * 动态条件查询菜品
+     */
+    List<Dish> list(Dish dish);
 }
