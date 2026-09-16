@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
+import java.util.Map;
+
 @Mapper
 public interface UserMapper {
 
@@ -25,4 +27,11 @@ public interface UserMapper {
             "values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(User user);
+
+    /**
+     * 动态条件统计用户数量，用于统计报表中的新增用户数
+     * @param map 可包含 begin、end 两个时间条件
+     * @return
+     */
+    Integer countByMap(Map map);
 }
