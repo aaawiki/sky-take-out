@@ -20,11 +20,27 @@ public interface UserMapper {
     User getByOpenid(String openid);
 
     /**
+     * 根据邮箱查询用户（网页端）
+     * @param email 用户邮箱
+     * @return
+     */
+    @Select("select * from user where email = #{email}")
+    User getByEmail(String email);
+
+    /**
+     * 根据ID查询用户
+     * @param id 用户主键
+     * @return
+     */
+    @Select("select * from user where id = #{id}")
+    User getById(Long id);
+
+    /**
      * 插入用户数据
      * @param user
      */
-    @Insert("insert into user (openid, name, phone, sex, id_number, avatar, create_time)" +
-            "values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime})")
+    @Insert("insert into user (openid, name, phone, sex, id_number, avatar, create_time, email, password)" +
+            "values (#{openid}, #{name}, #{phone}, #{sex}, #{idNumber}, #{avatar}, #{createTime}, #{email}, #{password})")
     @Options(useGeneratedKeys = true, keyProperty = "id")
     void insert(User user);
 

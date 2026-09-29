@@ -7,11 +7,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 管理端-店铺相关接口
@@ -51,5 +47,35 @@ public class ShopController {
         log.info("查询店铺营业状态为：{}", "1".equals(status) ? "营业中" : "打烊中");
         // 未设置过状态时默认返回打烊
         return Result.success("1".equals(status) ? 1 : 0);
+    }
+
+    /**
+     * 设置店铺联系电话
+     *
+     * @param phone 店铺联系电话
+     * @return
+     */
+    @PutMapping("/phone")
+    @ApiOperation("设置店铺联系电话")
+    public Result setPhone(@RequestParam String phone) {
+        log.info("设置店铺联系电话为：{}", phone);
+        stringRedisTemplate.opsForValue().set(RedisKeyConstant.SHOP_PHONE, phone);
+        return Result.success();
+    }
+
+    /**
+     * 查询店铺联系电话
+     *
+     * @return 店铺联系电话
+     */
+    @GetMapping("/phone")
+    @ApiOperation("查询店铺联系电话")
+    public Result<String> getPhone() {
+        String phone = stringRedisTemplate.opsForValue().get(RedisKeyConstant.SHOP_PHONE);
+        if (phone == null || phone.isEmpty()) {
+            phone = "400-618-4000";
+        }
+        log.info("查询店铺联系电话为：{}", phone);
+        return Result.success(phone);
     }
 }

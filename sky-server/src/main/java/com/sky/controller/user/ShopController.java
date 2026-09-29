@@ -36,4 +36,21 @@ public class ShopController {
         // 未设置过状态时默认返回打烊
         return Result.success("1".equals(status) ? 1 : 0);
     }
+
+    /**
+     * 查询店铺联系电话
+     *
+     * @return 店铺联系电话
+     */
+    @GetMapping("/phone")
+    @ApiOperation("查询店铺联系电话")
+    public Result<String> getPhone() {
+        String phone = stringRedisTemplate.opsForValue().get(RedisKeyConstant.SHOP_PHONE);
+        if (phone == null || phone.isEmpty()) {
+            // 未设置时默认返回客服电话
+            phone = "400-618-4000";
+        }
+        log.info("查询店铺联系电话为：{}", phone);
+        return Result.success(phone);
+    }
 }

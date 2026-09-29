@@ -4,8 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.sky.constant.MessageConstant;
 import com.sky.dto.UserLoginDTO;
+import com.sky.dto.WebUserLoginDTO;
 import com.sky.entity.User;
+import com.sky.exception.AccountNotFoundException;
+import com.sky.exception.BaseException;
 import com.sky.exception.LoginFailedException;
+import com.sky.exception.PasswordErrorException;
 import com.sky.mapper.UserMapper;
 import com.sky.properties.WeChatProperties;
 import com.sky.service.UserService;
@@ -13,7 +17,9 @@ import com.sky.utils.HttpClientUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,5 +81,74 @@ public class UserServiceImpl implements UserService {
         log.info("微信登录接口返回：{}", json);
         JSONObject jsonObject = JSON.parseObject(json);
         return jsonObject.getString("openid");
+    }
+
+    /**
+     * 网页端邮箱密码登录
+     *
+     * @param webUserLoginDTO 邮箱与密码
+     * @return User
+     */
+    @Override
+    public User webLogin(WebUserLoginDTO webUserLoginDTO) {
+        String email = webUserLoginDTO.getEmail();
+        String password = webUserLoginDTO.getPassword();
+
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new BaseException("邮箱或密码不能为空");
+        }
+
+        email = email.trim();
+        User user = userMapper.getByEmail(email);
+
+        if (user == null) {
+            throw new AccountNotFoundException("该邮箱未注册，请先注册账号");
+        }
+
+        // 密码 MD5 比对
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+        if (user.getPassword() == null || !user.getPassword().equalsIgnoreCase(md5Password)) {
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
+        }
+
+        log.info("网页端用户登录成功，用户ID：{}，邮箱：{}", user.getId(), user.getEmail());
+        return user;
+    }
+
+    /**
+     * 网页端邮箱注册
+     *
+     * @param webUserLoginDTO 邮箱与密码
+     * @return User
+     */
+    @Override
+    public User webRegister(WebUserLoginDTO webUserLoginDTO) {
+        String email = webUserLoginDTO.getEmail();
+        String password = webUserLoginDTO.getPassword();
+
+        if (email == null || email.trim().isEmpty() || password == null || password.trim().isEmpty()) {
+            throw new BaseException("邮箱或密码不能为空");
+        }
+
+        email = email.trim();
+        User existingUser = userMapper.getByEmail(email);
+        if (existingUser != null) {
+            throw new BaseException("该邮箱已被注册，请直接登录");
+        }
+
+        String md5Password = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+        String defaultName = email.contains("@") ? email.split("@")[0] : email;
+
+        User user = User.builder()
+                .email(email)
+                .password(md5Password)
+                .name(defaultName)
+                .avatar("/static/boy.png")
+                .createTime(LocalDateTime.now())
+                .build();
+
+        userMapper.insert(user);
+        log.info("网页端新用户注册成功，用户ID：{}，邮箱：{}", user.getId(), user.getEmail());
+        return user;
     }
 }

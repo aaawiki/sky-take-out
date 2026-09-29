@@ -39,4 +39,10 @@ public class User implements Serializable {
 
     //注册时间
     private LocalDateTime createTime;
+
+    //邮箱
+    private String email;
+
+    //密码
+    private String password;
 }

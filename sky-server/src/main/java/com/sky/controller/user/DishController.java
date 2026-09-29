@@ -33,17 +33,36 @@ public class DishController {
     @GetMapping("/list")
     @ApiOperation("根据分类id查询菜品")
     public Result<List<DishVO>> list(Long categoryId) {
-        String key ="dish_"+categoryId;
-        List<DishVO> list=(List<DishVO>) redisTemplate.opsForValue().get(key);
-        if(list!=null&&list.size()>0){
-            return Result.success(list);
+        log.info("C端-查询菜品列表, categoryId={}", categoryId);
+        String key = "dish_" + categoryId;
+        Object cached = redisTemplate.opsForValue().get(key);
+        if (cached instanceof List<?>) {
+            List<?> cachedList = (List<?>) cached;
+            boolean validDishList = cachedList.stream().allMatch(DishVO.class::isInstance);
+            if (validDishList && !cachedList.isEmpty()) {
+                log.info("C端-从Redis缓存命中菜品数据, categoryId={}, 数量={}", categoryId, cachedList.size());
+                @SuppressWarnings("unchecked")
+                List<DishVO> cachedDishes = (List<DishVO>) cachedList;
+                return Result.success(cachedDishes);
+            }
+            if (!validDishList) {
+                log.warn("C端-菜品缓存格式异常，清理缓存, categoryId={}", categoryId);
+            }
+            redisTemplate.delete(key);
+        } else if (cached != null) {
+            log.warn("C端-菜品缓存格式异常，清理缓存, categoryId={}", categoryId);
+            redisTemplate.delete(key);
         }
+
         Dish dish = new Dish();
         dish.setCategoryId(categoryId);
         dish.setStatus(StatusConstant.ENABLE);//查询起售中的菜品
 
-        list = dishService.listWithFlavor(dish);
-        redisTemplate.opsForValue().set(key,list);
+        List<DishVO> list = dishService.listWithFlavor(dish);
+        if (list != null && !list.isEmpty()) {
+            redisTemplate.opsForValue().set(key, list);
+        }
+        log.info("C端-从数据库查询菜品, categoryId={}, 数量={}", categoryId, (list != null ? list.size() : 0));
         return Result.success(list);
     }
 
